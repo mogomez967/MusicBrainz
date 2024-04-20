@@ -9,29 +9,44 @@ export default function App() {
 }
 
 const API = "https://musicbrainz.org/ws/2/";
-const Angelmaker = "artist/c5f8c1d7-9823-4b1a-bdfc-2995f847600b";
+// This url below is the proper way to query "Angelmaker" and show albums in JSON
+// http://musicbrainz.org/ws/2/release/?query=artist:Angelmaker&fmt=json
+const artist_input = "Angelmaker";
 
-// Get artist, country
-// async function get_music() {
-//   const response = await fetch(API+Angelmaker+"?fmt=json");
-//   const data = await response.json();
-
-//   console.log(data);
-//   console.log(data.name, data.area.name);
-// }
-
-// TODO: https://musicbrainz.org/artist/c5f8c1d7-9823-4b1a-bdfc-2995f847600b/details
-// I am missing the "release country" parameter and I suspect I am missing a url parameter.
-
-// List all albums using the release API. Get title, date, and Status
-async function get_albums() {
-  const response = await fetch(API+Angelmaker+"/releases/?fmt=json&inc=release-groups");
+async function get_artist() {
+  const response = await fetch(API+'artist/?query=artist:' + artist_input + '&fmt=json');
   const data = await response.json();
-  
-  for (let i = 0; i < data['release-groups'].length; i++) {
-    console.log(data['release-groups'][i].title, data['release-groups'][i]['first-release-date'], data['release-groups'][i]['primary-type']);
-  }
+
+  console.log(data.artists[0].name);
+  return data.artists[0].name;
 }
 
-// get_music();
-get_albums();
+// List all albums using the release API. Get title, date, and Status
+async function get_albums(artist) {
+  const response = await fetch(API + 'release/?query=artist:' + artist + '&fmt=json');
+  const data = await response.json();
+
+  const csv = [];
+  for (let i = 0; i < data.releases.length; i++) {
+    csv.push(artist + ',', data.releases[i].country + ',', data.releases[i].title + ',', data.releases[i].date + ',', data.releases[i].status);
+  }
+  return csv;
+}
+
+async function make_csv(data) {
+  const fs = require('fs');
+  fs.writeFile('output.txt', data, (err) => {
+    if (err) throw err;
+  })
+}
+
+// (async () => { defines function // ..do things async })(call this function);
+async function main() {
+  const artist = await get_artist();
+  const album_data = await get_albums(artist);
+  console.log(album_data);
+
+  make_csv(album_data);
+}
+
+main();
