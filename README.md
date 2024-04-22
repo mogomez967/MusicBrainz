@@ -12,7 +12,7 @@ node app.js <Any Artist Name>
 ```
 - If this is successful, a csv file titled _output.txt_ will be created with the generated results. Otherwise, an error message will appear on the console
   
-***Note: encase Artist names with quotation marks:***
+***Note: encase Artist names that have spaces with quotation marks:***
 ```
 node app.js "Senses Fail"
 ```
