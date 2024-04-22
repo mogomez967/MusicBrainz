@@ -1,10 +1,9 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
 const API = "https://musicbrainz.org/ws/2/";
-const artist_input = "Angelmaker";
 
-async function get_artist() {
-  const response = await fetch(API+'artist/?query=artist:' + artist_input + '&fmt=json');
+async function get_artist(artist_name) {
+  const response = await fetch(API + 'artist/?query=artist:' + artist_name + '&fmt=json');
   const data = await response.json();
   
   if (data.artists && data.artists.length > 0) {
@@ -34,7 +33,14 @@ async function make_csv(data) {
 }
 
 async function main() {
-  const artist = await get_artist();
+  const artist_name = process.argv[2];
+
+  if (!artist_name) {
+    console.log('Please provide an artist name as an argument');
+    return;
+  }
+  
+  const artist = await get_artist(artist_name);
   const album_data = await get_albums(artist);
   console.log(album_data);
 
