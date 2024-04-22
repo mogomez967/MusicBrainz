@@ -1,17 +1,17 @@
-## Running React on Repl.it
+# A Quick Representation of MusicBrainz API
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+### React.js Web Version
+- This is a front-end version that prompts the user to input an artist
+- If the input is valid, an API call wil be made to MusicBrainz API to generate all releases by an artist and display them in a table
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
-
-Using the two in conjunction is one of the fastest ways to build a web app.
-
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
-
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
-
-### Typescript
-
-Just rename any file from `.jsx` to `.tsx`. You can also try our [TypeScript Template](https://replit.com/@replit/React-TypeScript)
+### Node.js Script Version
+- This is a script version that relies on Node.js
+- From the command line, run:
+```
+node app.js <Any Artist Name>
+```
+- If this is successful, a csv file titled _output.txt_ will be created with the generated results. Otherwise, an error message will appear on the console
+*** Note: encase Artist names with quotation marks:
+```
+node app.js "Senses Fail"
+```
