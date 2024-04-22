@@ -3,9 +3,22 @@ import './App.css'
 export default function App() {
   return (
     <main>
-      React ⚛️ + Vite ⚡ + Replit
+      <div class="container">
+        <input
+          class="input has-text-centered is-rounded is-info"
+          type="text"
+          placeholder="Enter artist name"
+        ></input>
+      </div>
+
+      <div class="container is-fluid">
+        <button onClck={main} class="button is-rounded is-info">
+          Search
+        </button>
+      </div>
     </main>
   )
+
 }
 
 const API = "https://musicbrainz.org/ws/2/";
@@ -32,22 +45,10 @@ async function get_albums(artist) {
   return csv;
 }
 
-// make_csv cannot run on browser side as is. This only works as a .js script
-// async function make_csv(data) {
-//   const csvContent = data.join('\n');
-//   const header = 'Artist,Country,Title,Date,Status\n';
-//   fs.writeFile('output.csv', header + csvContent, (err) => {
-//     if (err) throw err;
-//     console.log('CSV file created successfully');
-//   });
-// }
-
 async function main() {
   const artist = await get_artist();
   const album_data = await get_albums(artist);
   console.log(album_data);
-
-  // make_csv(album_data);
 }
 
 main();
